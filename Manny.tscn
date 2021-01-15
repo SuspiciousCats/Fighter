@@ -1,0 +1,190 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Assets/Manny/Manny_Torso.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Manny/Manny_Hip.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Manny/Manny_Arm_Right.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Manny/Manny_Arm_Leftt.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Manny/Manny_Head.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Manny/Manny_Leg_Right.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Manny/Manny_Leg_Left.png" type="Texture" id=7]
+[ext_resource path="res://CharacterAnimations.gd" type="Script" id=8]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Hit"
+length = 0.4
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("hip/torso:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -1.15623, -0.25, 0, 0.25, 0, -2, -0.25, 0, 0.25, 0, -1.156, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("hip/torso:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -2.639, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("hip/torso/remote_arm_r:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -20, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Idle"
+length = 2.0
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("hip/torso:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -1.15623, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("hip/torso:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -2.63929, -0.25, 0, 0.25, 0, -3.5, -0.25, 0, 0.25, 0, -2.639, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1, 2 )
+}
+
+[node name="Root" type="Node2D"]
+script = ExtResource( 8 )
+
+[node name="hip" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="torso" type="Sprite" parent="hip"]
+position = Vector2( -1.15623, -3.06215 )
+rotation = -0.00932688
+texture = ExtResource( 1 )
+offset = Vector2( 0, -3.463 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="arm_r" type="Sprite" parent="hip/torso"]
+position = Vector2( -4.04429, -5.92425 )
+scale = Vector2( 1, 1 )
+z_index = 1
+texture = ExtResource( 3 )
+offset = Vector2( -1.7, 6.96 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="arm_r_end" type="Position2D" parent="hip/torso/arm_r"]
+position = Vector2( -2.872, 14.8998 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="arm_l" type="Sprite" parent="hip/torso"]
+position = Vector2( 4.89083, -5.94603 )
+scale = Vector2( 1, 1 )
+texture = ExtResource( 4 )
+offset = Vector2( 1.111, 6.956 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="arm_l_end" type="Position2D" parent="hip/torso/arm_l"]
+position = Vector2( 2.1053, 10.9518 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="head" type="Sprite" parent="hip/torso"]
+position = Vector2( -0.34592, -7.99209 )
+scale = Vector2( 1, 1 )
+texture = ExtResource( 5 )
+offset = Vector2( 0, -3.716 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="head_end" type="Position2D" parent="hip/torso/head"]
+position = Vector2( -0.150414, -6.41352 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="remote_arm_r" type="RemoteTransform2D" parent="hip/torso"]
+position = Vector2( -4.04429, -5.92425 )
+remote_path = NodePath("../arm_r")
+
+[node name="remote_arm_l" type="RemoteTransform2D" parent="hip/torso"]
+position = Vector2( 4.89083, -5.94603 )
+remote_path = NodePath("../arm_l")
+
+[node name="remote_head" type="RemoteTransform2D" parent="hip/torso"]
+position = Vector2( -0.34592, -7.99209 )
+remote_path = NodePath("../head")
+
+[node name="leg_r" type="Sprite" parent="hip"]
+position = Vector2( -2.07274, 2.31837 )
+rotation = 0.0077375
+texture = ExtResource( 6 )
+offset = Vector2( -2.718, 8.982 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="leg_r_end" type="Position2D" parent="hip/leg_r"]
+position = Vector2( -4.92228, 17.7977 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="leg_l" type="Sprite" parent="hip"]
+position = Vector2( 1.89576, 3.60813 )
+rotation = 0.0077375
+texture = ExtResource( 7 )
+offset = Vector2( 0.904, 6.742 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="leg_l_end" type="Position2D" parent="hip/leg_l"]
+position = Vector2( 1.41792, 16.558 )
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="remote_leg_r" type="RemoteTransform2D" parent="hip"]
+position = Vector2( -2.07274, 2.31837 )
+rotation = 0.0077375
+remote_path = NodePath("../leg_r")
+
+[node name="remote_leg_l" type="RemoteTransform2D" parent="hip"]
+position = Vector2( 1.89576, 3.60813 )
+rotation = 0.0077375
+remote_path = NodePath("../leg_l")
+
+[node name="CharacterAnimations" type="AnimationPlayer" parent="."]
+anims/Hit = SubResource( 1 )
+anims/Idle = SubResource( 2 )
