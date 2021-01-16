@@ -17,3 +17,5 @@ shape = SubResource( 1 )
 position = Vector2( 1.33484, -7.00791 )
 frames = ExtResource( 1 )
 animation = "Idle"
+
+[node name="Timer" type="Timer" parent="."]

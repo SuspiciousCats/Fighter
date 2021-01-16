@@ -19,23 +19,10 @@ position = Vector2( -0.566315, 118.742 )
 shape = SubResource( 1 )
 
 [node name="RigidBody2D" parent="." instance=ExtResource( 1 )]
+gravityForce = 300000.0
+jumpForce = -300000.0
+speed = 5000.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-
-[node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( -5.6123, -88.1133 )
-controlledByPlayer = false
-speed = 5000.0
-
-[node name="Character2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 20.7656, -157.145 )
-
-[node name="Character3" parent="." instance=ExtResource( 1 )]
-position = Vector2( -7.29602, -168.369 )
-
-[node name="Character4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 125.716, -90.9194 )
-
-[node name="Character5" parent="." instance=ExtResource( 1 )]
-position = Vector2( -63.9803, -102.705 )
+zoom = Vector2( 0.5, 0.5 )
