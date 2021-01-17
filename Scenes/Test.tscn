@@ -20,7 +20,14 @@ shape = SubResource( 1 )
 
 [node name="RigidBody2D" parent="." instance=ExtResource( 1 )]
 gravityForce = 300000.0
-jumpForce = -300000.0
+jumpForce = -100000.0
+speed = 5000.0
+
+[node name="RigidBody2D2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 64.2173, 79.677 )
+gravityForce = 300000.0
+jumpForce = -100000.0
+controlledByPlayer = false
 speed = 5000.0
 
 [node name="Camera2D" type="Camera2D" parent="."]

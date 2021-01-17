@@ -9,18 +9,31 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AnimatedSprite",
+"class": "CharacterAnimationManager",
+"language": "GDScript",
+"path": "res://Entities/CharacterAnimationManager.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "CharacterBase",
+"language": "GDScript",
+"path": "res://Entities/CharacterBase.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://git_api.gdns"
 } ]
 _global_script_class_icons={
+"CharacterAnimationManager": "",
+"CharacterBase": "",
 "GitAPI": ""
 }
 
 [application]
 
 config/name="Fighter"
+run/main_scene="res://Scenes/Test.tscn"
 config/icon="res://icon.png"
 
 [gdnative]
