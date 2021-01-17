@@ -2,15 +2,17 @@ extends KinematicBody2D
 
 class_name CharacterBase
 
-export (float) var gravityForce = 9800
+export (float) var gravityForce = 100
 
-export (float) var jumpForce = -4500
+export (float) var jumpForce = -50
 
 export (float) var velocityCheckErrorTolerance = 0.01
 
 export (bool) var controlledByPlayer = true
 
-export (float) var speed = 3000
+export (float) var speed = 100
+
+export (float) var health = 100
 
 var damageArea: Area2D
 
@@ -22,6 +24,12 @@ var blocking: bool = false
 
 var attacking: bool = false
 
+var dead: bool = false
+
+var playingHurtAnim:bool = false;
+
+var hurtSound:AudioStreamPlayer2D;
+
 #timers
 
 #How long is attack anim
@@ -30,6 +38,9 @@ var attackAnimTimer: Timer
 #When to attack during attack anim
 var attackTimer: Timer
 
+#for how long to play hurt anim;
+var hurtAnimTimer:Timer;
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,7 +48,18 @@ func _ready():
 	attackAnimTimer = get_node("AttackAnimTimer")
 	attackTimer = get_node("AttackTimer")
 	damageArea = get_node("DamageArea2D")
+	hurtAnimTimer = get_node("HurtAnimTimer");
+	hurtSound = get_node("HurtSound");
 	pass  # Replace with function body.
+
+
+func _die():
+	if !dead:
+		dead = true
+		animatedSprite.animation = "Death"
+		get_node("CollisionShape2D").disabled = true;
+		get_node("DeathSound").play();
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,7 +81,7 @@ func _update_animation():
 			animatedSprite.animation = "Jump"
 		else:
 			animatedSprite.animation = "Fall"
-	if velocity == Vector2.ZERO && ! attacking:
+	if velocity == Vector2.ZERO && !attacking && !playingHurtAnim:
 		if blocking:
 			animatedSprite.animation = "Block_Idle"
 		else:
@@ -67,6 +89,9 @@ func _update_animation():
 
 	if attacking:
 		animatedSprite.animation = "Attack"
+
+	if playingHurtAnim:
+		animatedSprite.animation = "Hurt";
 
 	if ! animatedSprite.playing:
 		animatedSprite.play()
@@ -108,11 +133,14 @@ func _prcocess_input(delta):
 
 
 func _physics_process(delta):
+	if dead:
+		return
+
 	_prcocess_input(delta)
 
 	velocity.y += gravityForce * delta
 
-	velocity = move_and_slide(velocity * delta, Vector2.UP)
+	velocity = move_and_slide(velocity, Vector2.UP)
 
 	if Input.is_action_pressed("ui_up") && is_on_floor():
 		velocity.y = jumpForce
@@ -126,17 +154,32 @@ func _on_attack_timer_over():
 	attackAnimTimer.stop()
 	pass
 
-func on_damage(var damage:int):
-	print(damage);
+func _on_end_hurt_anim():
+	playingHurtAnim = false;
+	pass;
+
+
+func on_damage(damage: int):
+	health -= damage;
+	if health <= 0:
+		_die();
+	else:
+		playingHurtAnim = true;
+		hurtAnimTimer = Timer.new();
+		hurtAnimTimer.wait_time = animatedSprite.hurtAnimLenght;
+		hurtAnimTimer.connect("timeout",self,"_on_end_hurt_anim");
+		add_child(hurtAnimTimer);
+		hurtAnimTimer.start();
+		hurtSound.play();
 	pass
 
 
 func _attack():
 	if damageArea != null:
-		var bodies = damageArea.get_overlapping_bodies();
-		for body in bodies :
-			if(body is get_script()) && body != self:
-				body.call("on_damage",10);
+		var bodies = damageArea.get_overlapping_bodies()
+		for body in bodies:
+			if (body is get_script()) && body != self:
+				body.call("on_damage", 10)
 			pass
-	attackTimer.stop();
+	attackTimer.stop()
 	pass

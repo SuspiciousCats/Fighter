@@ -1,19 +1,27 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/Knight/Knight_Anims.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Entities/CharacterBase.gd" type="Script" id=2]
 [ext_resource path="res://Entities/CharacterAnimationManager.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Sounds/Hit/retro_impact_hit_06.WAV" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/Death/retro_fail_sound_04.WAV" type="AudioStream" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.3522
-height = 22.6599
+height = 18.0239
 
 [sub_resource type="RectangleShape2D" id=2]
 
 [node name="Character" type="KinematicBody2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource( 2 )
+gravityForce = 500.0
+jumpForce = -250.0
+speed = 300.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.264862, -2.38379 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -26,8 +34,16 @@ script = ExtResource( 3 )
 
 [node name="AttackTimer" type="Timer" parent="."]
 
+[node name="HurtAnimTimer" type="Timer" parent="."]
+
 [node name="DamageArea2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea2D"]
 position = Vector2( 21.4541, -2.11893 )
 shape = SubResource( 2 )
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )

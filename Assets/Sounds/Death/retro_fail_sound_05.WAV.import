@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/retro_fail_sound_05.WAV-0bc1bd6576615b4b240299d7b10f7d2e.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Death/retro_fail_sound_05.WAV"
+dest_files=[ "res://.import/retro_fail_sound_05.WAV-0bc1bd6576615b4b240299d7b10f7d2e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

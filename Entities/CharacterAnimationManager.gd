@@ -8,3 +8,5 @@ class_name CharacterAnimationManager
 export (float) var attackAnimationLenght = 0.33;
 
 export (float) var attackAnimationAttackTime = 0.13
+
+export (float) var hurtAnimLenght =  0.2;

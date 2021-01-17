@@ -33,8 +33,16 @@ _global_script_class_icons={
 [application]
 
 config/name="Fighter"
+config/description="- fight?
+- nah
+- oke"
 run/main_scene="res://Scenes/Test.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [gdnative]
 
@@ -55,4 +63,5 @@ block={
 
 [rendering]
 
+environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"
