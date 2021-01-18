@@ -17,8 +17,6 @@ extents = Vector2( 10, 21.0436 )
 collision_layer = 3
 collision_mask = 3
 script = ExtResource( 2 )
-gravityForce = 500.0
-jumpForce = -250.0
 speed = 300.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

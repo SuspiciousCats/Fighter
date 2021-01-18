@@ -2,15 +2,15 @@ extends KinematicBody2D
 
 class_name CharacterBase
 
-export (float) var gravityForce = 100
+export (float) var gravityForce = 500
 
-export (float) var jumpForce = -50
+export (float) var jumpForce = -250
 
 export (float) var velocityCheckErrorTolerance = 0.01
 
 export (bool) var controlledByPlayer = true
 
-export (float) var speed = 100
+export (float) var speed = 200
 
 export (float) var health = 100
 
@@ -56,6 +56,8 @@ var attackTimer: Timer
 
 #for how long to play hurt anim;
 var hurtAnimTimer: Timer
+
+var doingSpecialAttack: bool = false;
 
 
 # Called when the node enters the scene tree for the first time.
@@ -180,13 +182,10 @@ func _process_input(delta):
 		else:
 			velocity.x = 0
 
-		if _is_key_down("block"):
-			blocking = true
-		else:
-			blocking = false
-
-		if ! attacking:
-			if _is_key_down("attack"):
+		if ! attacking && ! doingSpecialAttack:
+			if _is_key_down("special_attack"):
+				_activate_special_attack();
+			elif _is_key_down("attack"):
 				_init_attack_timers(0)
 
 			elif _is_key_down("attack2"):
@@ -203,7 +202,7 @@ func _physics_process(delta):
 
 	if specialAttackChargeAmount < 100:
 		specialAttackChargeAmount += specialAttackChargeRate;
-		
+
 	_process_input(delta)
 
 	velocity.y += gravityForce * delta
@@ -214,6 +213,10 @@ func _physics_process(delta):
 		velocity.y = jumpForce
 
 	_update_animation()
+	pass
+
+func _activate_special_attack():
+	#override in child classes
 	pass
 
 
@@ -228,7 +231,7 @@ func _on_end_hurt_anim():
 	pass
 
 
-func on_damage(damage: int):
+func on_damage(damage: int,damager:CharacterBase):
 	attacking = false
 	attackAnimTimer.stop()
 	attackTimer.stop()
@@ -259,7 +262,7 @@ func _attack():
 		var bodies = damageArea.get_overlapping_bodies()
 		for body in bodies:
 			if _is_of_enemy_type(body) && body != self:
-				body.call("on_damage", attack1Damage if (currentAttackType == 0) else attack2Damage)
+				body.call("on_damage", attack1Damage if (currentAttackType == 0) else attack2Damage,self)
 			pass
 	attackTimer.stop()
 	_ai_react_to_attacking()
