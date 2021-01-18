@@ -14,6 +14,10 @@ export (float) var speed = 100
 
 export (float) var health = 100
 
+export (float) var attack1Damage = 15;
+
+export (float) var attack2Damage = 20;
+
 export (int) var inputDeviceId = 0;
 
 var damageArea: Area2D
@@ -36,6 +40,8 @@ var desiredXScale = 1;
 
 #enemy for ai to focus on
 var enemy:CharacterBase;
+
+var currentAttackType:int = 0;
 
 #timers
 
@@ -82,19 +88,29 @@ func _die():
 			(get_parent().get_node("WinnerId") as RichTextLabel).text = "0";
 	pass
 
-func _init_attack_timers():
+func _init_attack_timers(var attackId:int = 0):
+	currentAttackType = attackId;
+
+	attackAnimTimer.stop();
 	attackAnimTimer = Timer.new()
 	attackAnimTimer.connect("timeout", self, "_on_attack_timer_over")
-	attackAnimTimer.wait_time = animatedSprite.attackAnimationLenght
+	if attackId == 0:
+		attackAnimTimer.wait_time = animatedSprite.attack1AnimationLenght
+	else:
+		attackAnimTimer.wait_time = animatedSprite.attack2AnimationLenght
 	add_child(attackAnimTimer)
 	attackAnimTimer.start()
 
 	attacking = true
 
+	attackTimer.stop();
 	#setup attack timer
 	attackTimer = Timer.new()
 	attackTimer.connect("timeout", self, "_attack")
-	attackTimer.wait_time = animatedSprite.attackAnimationAttackTime
+	if attackId == 0:
+		attackTimer.wait_time = animatedSprite.attack1AnimationAttackTime
+	else:
+		attackTimer.wait_time = animatedSprite.attack2AnimationAttackTime
 	add_child(attackTimer)
 	attackTimer.start()
 	pass
@@ -134,7 +150,7 @@ func _update_animation():
 			animatedSprite.animation = "Idle"
 
 	if attacking:
-		animatedSprite.animation = "Attack"
+		animatedSprite.animation = "Attack" + String(currentAttackType + 1);
 
 	if playingHurtAnim:
 		animatedSprite.animation = "Hurt";
@@ -158,8 +174,12 @@ func _process_input(delta):
 		else:
 			blocking = false
 
-		if _is_key_down("attack") && ! attacking:
-			_init_attack_timers();
+		if !attacking:
+			if _is_key_down("attack"):
+				_init_attack_timers(0);
+
+			elif _is_key_down("attack2") :
+				_init_attack_timers(1);
 	pass
 
 func _physics_process(delta):
@@ -221,7 +241,7 @@ func _attack():
 		var bodies = damageArea.get_overlapping_bodies()
 		for body in bodies:
 			if _is_of_enemy_type(body) && body != self:
-				body.call("on_damage", 10)
+				body.call("on_damage", attack1Damage if (currentAttackType==0) else attack2Damage )
 			pass
 	attackTimer.stop()
 	_ai_react_to_attacking();
