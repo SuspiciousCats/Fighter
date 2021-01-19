@@ -38,6 +38,9 @@ var hurtSound: AudioStreamPlayer2D
 
 var desiredXScale = 1
 
+#Set this to false if you want to override animation with something else
+var shouldUpdateAnimation:bool = true;
+
 #enemy for ai to focus on
 var enemy: CharacterBase
 
@@ -130,6 +133,8 @@ func _init_attack_timers(attackId: int = 0):
 #func _process(delta):
 #	pass
 func _update_animation():
+	if !shouldUpdateAnimation:return;
+	
 	if (
 		abs(velocity.x) > velocityCheckErrorTolerance
 		&& animatedSprite != null

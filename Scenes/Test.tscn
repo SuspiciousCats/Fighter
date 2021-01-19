@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Entities/CharacterBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entities/Peasant.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Grass_floor.png" type="Texture" id=2]
 [ext_resource path="res://Entities/Stats.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Entities/Knight.tscn" type="PackedScene" id=4]
@@ -63,10 +63,6 @@ shape = SubResource( 1 )
 [node name="Player0" parent="." instance=ExtResource( 4 )]
 position = Vector2( -177.987, 40.2555 )
 
-[node name="Player1" parent="." instance=ExtResource( 1 )]
-position = Vector2( 15.9515, 85.8838 )
-inputDeviceId = 1
-
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.5, 0.5 )
@@ -109,3 +105,7 @@ margin_right = 113.297
 margin_bottom = -147.15
 rect_scale = Vector2( 0.5, 0.5 )
 playerId = 1
+
+[node name="Player1" parent="." instance=ExtResource( 1 )]
+position = Vector2( 13.2279, 67.2366 )
+inputDeviceId = 1

@@ -29,3 +29,6 @@ func on_damage(damage: int,damager:CharacterBase):
 	else:
 		damager.on_damage(damage*0.25,self);
 	pass
+
+func _is_of_enemy_type(body) -> bool:
+	return body is CharacterBase;

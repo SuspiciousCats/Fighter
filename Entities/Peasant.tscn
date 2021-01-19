@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Entities/CharacterBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Peasant/PeasantAnims.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Entities/Peasant.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Sounds/Hit/retro_impact_hit_14.WAV" type="AudioStream" id=4]
+
+[node name="Character" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+speed = 200.0
+
+[node name="AnimatedSprite" parent="." index="1"]
+position = Vector2( 0.145631, -2.84569 )
+frames = ExtResource( 2 )
+animation = "SpecialAttack"
+
+[node name="SpecialAttackSoundPlayer" type="AudioStreamPlayer2D" parent="." index="9"]
+stream = ExtResource( 4 )
+
+[node name="SpecialAttackDamageTimer" type="Timer" parent="." index="10"]
+wait_time = 0.13
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
