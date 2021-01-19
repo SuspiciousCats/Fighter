@@ -8,6 +8,7 @@
 [node name="Character" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 speed = 200.0
+specialAttackChargeRate = 0.3
 
 [node name="AnimatedSprite" parent="." index="1"]
 position = Vector2( 0.145631, -2.84569 )

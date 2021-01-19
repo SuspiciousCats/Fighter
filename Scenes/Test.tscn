@@ -1,14 +1,25 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Entities/Peasant.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Icons/title.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Grass_floor.png" type="Texture" id=2]
 [ext_resource path="res://Entities/Stats.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Entities/Knight.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Icons/peasant_icon.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/GameManager.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Sounds/Hit/retro_impact_hit_general_39.WAV" type="AudioStream" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 126.379, 10 )
+extents = Vector2( 126.379, 7.52139 )
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource( 5 )
+knightFile = "res://Entities/Knight.tscn"
+huntressFile = "res://Entities/Huntress.tscn"
+peasantFile = "res://Entities/Peasant.tscn"
+ninjaFile = "res://Entities/Ninja.tscn"
+ninjaIcon = "res://Assets/Icons/ninja_icon.png"
+knighIcon = "res://Assets/Icons/knight_icon.png"
+huntressIcon = "res://Assets/Icons/huntress_icon.png"
+peasantIcon = "res://Assets/Icons/peasant_icon.png"
 
 [node name="Grass_floor" type="Sprite" parent="."]
 position = Vector2( -128.264, 20.4795 )
@@ -60,9 +71,6 @@ collision_mask = 3
 position = Vector2( -0.0365604, 118.742 )
 shape = SubResource( 1 )
 
-[node name="Player0" parent="." instance=ExtResource( 4 )]
-position = Vector2( -177.987, 40.2555 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.5, 0.5 )
@@ -106,6 +114,54 @@ margin_bottom = -147.15
 rect_scale = Vector2( 0.5, 0.5 )
 playerId = 1
 
-[node name="Player1" parent="." instance=ExtResource( 1 )]
-position = Vector2( 13.2279, 67.2366 )
-inputDeviceId = 1
+[node name="MenuCamera" type="Camera2D" parent="."]
+position = Vector2( 1.1225, -317.657 )
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="Control" type="Control" parent="MenuCamera"]
+margin_left = -255.0
+margin_top = -150.0
+margin_right = 257.0
+margin_bottom = 149.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="title" type="Sprite" parent="MenuCamera/Control"]
+position = Vector2( 264.043, 77.1157 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuCamera/Control"]
+margin_left = -0.176605
+margin_top = 152.141
+margin_right = 243.823
+margin_bottom = 196.141
+text = "A and D(or D-Pad on device 0) -Select Fighter For Player 1"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="MenuCamera/Control"]
+margin_left = 255.0
+margin_top = 145.0
+margin_right = 506.0
+margin_bottom = 193.0
+text = "<- and -> (or D-Pad on device 1) -Select Fighter For Player 2
+"
+
+[node name="player1_icon" type="Sprite" parent="MenuCamera/Control"]
+position = Vector2( 100, 250 )
+scale = Vector2( 4.77434, 4.53154 )
+texture = ExtResource( 4 )
+
+[node name="player2_icon" type="Sprite" parent="MenuCamera/Control"]
+position = Vector2( 400, 250 )
+scale = Vector2( 4.77434, 4.53154 )
+texture = ExtResource( 4 )
+
+[node name="Player1SpawnPosition" type="Position2D" parent="."]
+position = Vector2( -209, 85 )
+
+[node name="Player2SpawnPosition" type="Position2D" parent="."]
+position = Vector2( 204, 80 )
+
+[node name="SelectionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
